@@ -3,9 +3,9 @@ library(readr)
 library(topicmodels)
 
 ## loading kmer documents from a directory
-dir <- "/home/mcb/li_lab/cgroza/dev/QLS_Li_Lab"
+dir <- "/home/mcb/li_lab/cgroza/kmers"
 dir.source <- DirSource(dir, pattern = "kmers")
-corpus <- SimpleCorpus(dir.source)
+corpus <- PCorpus(dir.source, dbControl = list(dbName = "kmer_corpus.db", dbType = "DB1"))
 kmer.matrix <- DocumentTermMatrix(corpus)
 
 ## k <- 30
