@@ -34,7 +34,8 @@ dtm <- foreach(kmer = counts,
                .combine = c
                )  %dopar% countsToDocumentMatrix(kmer)
 
-stopCluster(dtm)
+print(dtm)
+stopCluster(cl)
 
 ## k <- 30
 ## SEED <- 2010
