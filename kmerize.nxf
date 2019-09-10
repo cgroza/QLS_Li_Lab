@@ -21,7 +21,7 @@ zcat $fasta | awk '/^[^\\>].*\$/ {
    printf "%s ", substr(\$0, i, 24)
   }
  print "";
- }' | gzip -c > ${name}_kmers.gz
+ }' | tr " " "\n" | sort | uniq -c | awk 'NR>1 {print "${name}",\$2,\$1}' |  gzip -c > ${name}_kmers.gz
 """
 }
 
