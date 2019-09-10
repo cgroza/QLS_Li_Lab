@@ -12,15 +12,14 @@ no_cores <- detectCores()/2
 cl <- makeCluster(no_cores)
 ## loading kmer documents from a directory
 dir <- "/home/mcb/li_lab/cgroza/kmers"
-setwd(dir)
-
-counts <- list.files(dir)
+counts <- list.files(dir, full.names = T)
 
 clusterEvalQ(cl, library(tidyverse))
 clusterEvalQ(cl, library(slam))
 clusterEvalQ(cl, library(Matrix))
 clusterEvalQ(cl, library(tm))
 clusterExport(cl, "counts")
+clusterExport(cl, "dir")
 
 # for testing purposes
 ## counts <- counts[1:3]
