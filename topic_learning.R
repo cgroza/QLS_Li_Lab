@@ -11,7 +11,7 @@ library(purrr)
 ## Use half the cores
 no_cores <- detectCores()/2
 # Initiate cluster
-cl <- makeCluster(no_cores, type="FORK")
+cl <- makeCluster(no_cores)
 registerDoParallel(cl)
 ## loading kmer documents from a directory
 dir <- "/home/mcb/li_lab/cgroza/kmers"
