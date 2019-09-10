@@ -30,14 +30,11 @@ countsToDocumentMatrix <- function(filename)
   return(dtm)
 }
 
-compile.kmers <- function (kmer) {
-  foreach(kmer = counts,
-          .combine = c
-          )  %dopar%
-    countsToDocumentMatrix(kmer)
-}
-dtm <- compile.kmers()
+dtm <- foreach(kmer = counts,
+               .combine = c
+               )  %dopar% countsToDocumentMatrix(kmer)
 
+stopCluster(dtm)
 
 ## k <- 30
 ## SEED <- 2010
