@@ -3,6 +3,13 @@ library(readr)
 library(topicmodels)
 library(Matrix)
 library(slam)
+library(parallel)
+library(purrr)
+
+## Use half the cores
+no_cores <- detectCores()/2
+# Initiate cluster
+cl <- makeCluster(no_cores)
 
 ## loading kmer documents from a directory
 dir <- "/home/mcb/li_lab/cgroza/kmers"
@@ -27,13 +34,9 @@ countsToDocumentMatrix <- function(filename)
   return(dtm)
 }
 
-dtm.acc <- countsToDocumentMatrix(counts[1])
-for(kmer.counts in counts[2:length(counts)])
-{
-  dtm.acc <- c(dtm.acc, countsToDocumentMatrix(kmer.counts))
-}
-print(dtm.acc)
-save.image(file="/home/mcb/li_lab/cgroza/kmers.Rdata")
+dtms <- parLapply(cl, counts, countsToDocumentMatrix)
+
+all <- reduce(dtms, c)
 
 
 ## corpus <- PCorpus(dir.source, dbControl = list(dbName = "kmer_corpus.db", dbType = "DB1"))
