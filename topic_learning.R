@@ -17,6 +17,12 @@ registerDoParallel(cl)
 dir <- "/home/mcb/li_lab/cgroza/kmers"
 counts <- list.files(dir, full.names = T)
 
+clusterEvalQ(cl, library(tidyverse))
+clusterEvalQ(cl, library(slam))
+clusterEvalQ(cl, library(Matrix))
+clusterEvalQ(cl, library(tm))
+clusterExport(cl, "counts")
+
 countsToDocumentMatrix <- function(filename)
 {
   kmer <- read_delim(filename, col_names=F, delim=" ")
