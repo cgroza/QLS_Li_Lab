@@ -9,7 +9,7 @@ library(doParallel)
 library(purrr)
 
 ## Use half the cores
-no_cores <- detectCores()/2
+no_cores <- detectCores() - 4
 # Initiate cluster
 cl <- makeCluster(no_cores)
 registerDoParallel(cl)
