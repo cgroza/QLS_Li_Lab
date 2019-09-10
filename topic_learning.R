@@ -32,7 +32,7 @@ countsToDocumentMatrix <- function(filename)
 
 compile.kmers <- function (kmer) {
   foreach(kmer = counts,
-          .combine = c,
+          .combine = c
           )  %dopar%
     countsToDocumentMatrix(kmer)
 }
