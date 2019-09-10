@@ -37,7 +37,8 @@ countsToDocumentMatrix <- function(filename)
 }
 
 dtm <- foreach(kmer = counts,
-               .combine = c
+               .combine = c,
+               .multicombine = T
                )  %dopar% countsToDocumentMatrix(kmer)
 
 print(dtm)
