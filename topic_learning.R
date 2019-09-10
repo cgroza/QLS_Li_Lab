@@ -1,12 +1,43 @@
 library(tm)
 library(readr)
 library(topicmodels)
+library(Matrix)
+library(slam)
 
 ## loading kmer documents from a directory
 dir <- "/home/mcb/li_lab/cgroza/kmers"
-dir.source <- DirSource(dir, pattern = "kmers")
-corpus <- PCorpus(dir.source, dbControl = list(dbName = "kmer_corpus.db", dbType = "DB1"))
-kmer.matrix <- DocumentTermMatrix(corpus)
+setwd(dir)
+
+counts <- list.files(dir)
+
+# for testing purposes
+## counts <- counts[1:3]
+
+
+countsToDocumentMatrix <- function(filename)
+{
+  kmer <- read_delim(filename, col_names=F, delim=" ")
+  ## initialize matrix
+  dtm <- simple_triplet_matrix(
+    i=rep(1, length(kmer$X1)),
+    j =1:length(kmer$X2),
+    v = kmer$X3,
+    dimnames = list(kmer$X1[1], kmer$X2))
+  dtm = as.DocumentTermMatrix(dtm, weighting = weightTf)
+  return(dtm)
+}
+
+dtm.acc <- countsToDocumentMatrix(counts[1])
+for(kmer.counts in counts[2:length(counts)])
+{
+  dtm.acc <- c(dtm.acc, countsToDocumentMatrix(kmer.counts))
+}
+print(dtm.acc)
+save.image(file="/home/mcb/li_lab/cgroza/kmers.Rdata")
+
+
+## corpus <- PCorpus(dir.source, dbControl = list(dbName = "kmer_corpus.db", dbType = "DB1"))
+## kmer.matrix <- DocumentTermMatrix(corpus)
 
 ## k <- 30
 ## SEED <- 2010
