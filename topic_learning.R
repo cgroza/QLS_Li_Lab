@@ -4,26 +4,18 @@ library(topicmodels)
 library(Matrix)
 library(slam)
 library(parallel)
+library(foreach)
+library(doParallel)
 library(purrr)
 
 ## Use half the cores
 no_cores <- detectCores()/2
 # Initiate cluster
-cl <- makeCluster(no_cores)
+cl <- makeCluster(no_cores, type="FORK")
+registerDoParallel(cl)
 ## loading kmer documents from a directory
 dir <- "/home/mcb/li_lab/cgroza/kmers"
 counts <- list.files(dir, full.names = T)
-
-clusterEvalQ(cl, library(tidyverse))
-clusterEvalQ(cl, library(slam))
-clusterEvalQ(cl, library(Matrix))
-clusterEvalQ(cl, library(tm))
-clusterExport(cl, "counts")
-clusterExport(cl, "dir")
-
-# for testing purposes
-## counts <- counts[1:3]
-
 
 countsToDocumentMatrix <- function(filename)
 {
@@ -38,13 +30,14 @@ countsToDocumentMatrix <- function(filename)
   return(dtm)
 }
 
-dtms <- parLapply(cl, counts, countsToDocumentMatrix)
+compile.kmers <- function (kmer) {
+  foreach(kmer = counts,
+          .combine = c,
+          )  %dopar%
+    countsToDocumentMatrix(kmer)
+}
+dtm <- compile.kmers()
 
-all <- reduce(dtms, c)
-
-
-## corpus <- PCorpus(dir.source, dbControl = list(dbName = "kmer_corpus.db", dbType = "DB1"))
-## kmer.matrix <- DocumentTermMatrix(corpus)
 
 ## k <- 30
 ## SEED <- 2010
