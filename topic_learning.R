@@ -1,5 +1,5 @@
 library(tm)
-library(readr)
+library(tidyverse)
 library(topicmodels)
 library(Matrix)
 library(slam)
