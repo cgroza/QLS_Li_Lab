@@ -38,7 +38,7 @@ countsToDocumentMatrix <- function(filename)
 }
 
 breaks <- c(seq(1,3486, by=100), 3485)
-dtm.acc <- NULL
+dtm.acc <- FALSE
 for (i in 1:(length(breaks) - 1)){
   print(paste("Running 100 samples from ", i))
   dtm <- foreach(kmer = counts[breaks[i]:(breaks[i+1]-1)],
