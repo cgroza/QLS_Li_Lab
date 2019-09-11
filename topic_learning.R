@@ -37,14 +37,26 @@ countsToDocumentMatrix <- function(filename)
   return(dtm)
 }
 
-dtm <- foreach(kmer = counts[1:100],
-               .combine = "c",
-               .multicombine = T,
-               .inorder = F,
-               .verbose = T
-               )  %dopar% countsToDocumentMatrix(kmer)
+breaks <- c(seq(1,3486, by=100), 3485)
+dtm.acc <- NULL
+for (i in 1:(length(breaks) - 1)){
+  print(paste("Running 100 samples from ", i))
+  dtm <- foreach(kmer = counts[breaks[i]:(breaks[i+1]-1)],
+                 .combine = "c",
+                 .multicombine = T,
+                 .inorder = F,
+                 .verbose = T
+                 )  %dopar% countsToDocumentMatrix(kmer)
 
-print(dtm)
+  print(dtm)
+  if(dtm.acc) {
+    dtm.acc <- c(dtm, dtm.acc)
+    dtm.acc <- removeSparseTerms(dtm.acc, 0.9)
+  }
+  else {
+    dtm.acc <- dtm
+  }
+}
 stopCluster(cl)
 
 ## k <- 30
