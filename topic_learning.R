@@ -33,6 +33,7 @@ countsToDocumentMatrix <- function(filename)
     v = kmer$X3,
     dimnames = list(kmer$X1[1], kmer$X2))
   dtm = as.DocumentTermMatrix(dtm, weighting = weightTf)
+  print(paste("Computed ", filename))
   return(dtm)
 }
 
