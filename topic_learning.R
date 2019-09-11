@@ -49,13 +49,13 @@ for (i in 1:(length(breaks) - 1)){
                  )  %dopar% countsToDocumentMatrix(kmer)
 
   if(dtm.acc == FALSE) {
+    dtm.acc <- dtm
+  }
+  else {
     dtm.acc <- c(dtm, dtm.acc)
     dtm.acc <- removeSparseTerms(dtm.acc, 0.9)
     ## Give update on the number of kmers and sparsity
     print(dtm.acc)
-  }
-  else {
-    dtm.acc <- dtm
   }
 }
 stopCluster(cl)
