@@ -40,18 +40,19 @@ countsToDocumentMatrix <- function(filename)
 breaks <- c(seq(1,3486, by=100), 3485)
 dtm.acc <- FALSE
 for (i in 1:(length(breaks) - 1)){
-  print(paste("Running 100 samples from ", breaks[i]))
-  dtm <- foreach(kmer = counts[breaks[i]:(breaks[i+1]-1)],
+  print(paste("Running samples from", breaks[i], breaks[i + 1] - 1))
+  dtm <- foreach(kmer = counts[breaks[i]:(breaks[i + 1] - 1)],
                  .combine = "c",
                  .multicombine = T,
                  .inorder = F,
                  .verbose = T
                  )  %dopar% countsToDocumentMatrix(kmer)
 
-  print(dtm)
   if(dtm.acc) {
     dtm.acc <- c(dtm, dtm.acc)
     dtm.acc <- removeSparseTerms(dtm.acc, 0.9)
+    ## Give update on the number of kmers and sparsity
+    print(dtm.acc)
   }
   else {
     dtm.acc <- dtm
