@@ -48,7 +48,7 @@ for (i in 1:(length(breaks) - 1)){
                  .verbose = T
                  )  %dopar% countsToDocumentMatrix(kmer)
 
-  if(dtm.acc) {
+  if(dtm.acc == FALSE) {
     dtm.acc <- c(dtm, dtm.acc)
     dtm.acc <- removeSparseTerms(dtm.acc, 0.9)
     ## Give update on the number of kmers and sparsity
