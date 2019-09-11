@@ -37,8 +37,8 @@ countsToDocumentMatrix <- function(filename)
   return(dtm)
 }
 
-dtm <- foreach(kmer = counts,
-               .combine = c,
+dtm <- foreach(kmer = counts[1:100],
+               .combine = "c",
                .multicombine = T,
                .inorder = F,
                .verbose = T
