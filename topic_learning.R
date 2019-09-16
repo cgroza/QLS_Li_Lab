@@ -14,7 +14,7 @@ no_cores <- detectCores() - 4
 cl <- makeCluster(no_cores)
 registerDoParallel(cl)
 ## loading kmer documents from a directory
-dir <- "/home/mcb/li_lab/cgroza/kmers"
+dir <- "/home/mcb/li_lab/cgroza/kmers_16"
 counts <- list.files(dir, full.names = T)
 
 clusterEvalQ(cl, library(tidyverse))
