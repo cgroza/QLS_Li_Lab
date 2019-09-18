@@ -55,9 +55,9 @@ for (i in 1:(length(breaks) - 1)){
   }
   else {
     dtm.acc <- c(dtm, dtm.acc)
-    if(i %% 2){
-      dtm.acc <- removeSparseTerms(dtm.acc, 0.9)
-    }
+#    if(i %% 2){
+    dtm.acc <- removeSparseTerms(dtm.acc, 0.8)
+#    }
     ## Give update on the number of kmers and sparsity
     print(dtm.acc)
   }
