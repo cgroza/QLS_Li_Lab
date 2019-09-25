@@ -73,5 +73,5 @@ ggsave("pruned_variance_cdf.pdf")
 pruned.kmers <- filter(kmers, Var > 800)$KMER
 ## To prune the DocumentTermMatrix
 dtm <- readRDS("kmers_16_dtm.Rds")
-dtm.pruned <- dtm[, ! Terms(dtm) %in% pruned.kmers]
+dtm.pruned <- dtm[, Terms(dtm) %in% pruned.kmers]
 saveRDS(dtm.pruned, "kmers_16_dtm_pruned.Rds")

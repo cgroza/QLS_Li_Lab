@@ -22,7 +22,7 @@ topic.model <- LDA(train, k = k, method = "Gibbs", control = list(
                                                      burnin = 1000,
                                                      thin = 100,
                                                      iter = 1000,
-                                                     verbose = 10,
-                                                     save = 1,
+                                                     verbose = 100,
+                                                     save = 100,
                                                      prefix = "LDA_"
                                                      ))
