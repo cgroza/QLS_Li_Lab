@@ -1,0 +1,16 @@
+library(tm)
+library(tidyverse)
+library(topicmodels)
+library(Matrix)
+library(slam)
+library(parallel)
+library(foreach)
+library(doParallel)
+library(purrr)
+library(Rfast)
+library(ggpointdensity)
+
+dtm <- readRDS("kmers_16_dtm_pruned.Rds")
+
+long.table <- tibble(patientID = dtm$i, typeID = 1, pheID = dtm$j, stateID = 1, freq = dtm$v)
+write.table(long.table, "kmers_16_dtm_pruned.txt")
